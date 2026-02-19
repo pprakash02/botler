@@ -72,7 +72,7 @@ When you are satisfied disconnect the call, the MoM will be automatically genera
 
 ## 3. Architecture Diagram
 
-
+<img width="1440" height="1040" alt="Reference-Architecture-Pipecat" src="./assets/architecture-diagram.png" />  
 
 The pipeline utilizes a streaming-first architecture connecting Asterisk with Pipecat. 
 
