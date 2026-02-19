@@ -9,7 +9,8 @@
 ## 2. Setup Instructions
 ### Prerequisites
 
-**Recommended Python Version:** 3.13
+**Recommended Python Version:** 3.13  
+**Hardware:** CUDA capable GPU
 
 ### Setup Steps
 
