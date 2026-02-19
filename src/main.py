@@ -105,7 +105,7 @@ async def run_bot(transport: AsteriskWSServerTransport, vad_analyzer: SileroVADA
 
     task = PipelineTask(
         pipeline,
-        params=PipelineParams(enable_metrics=False)
+        params=PipelineParams(enable_metrics=True)
     )
 
     transcript_log = []
