@@ -5,7 +5,8 @@
 **Team Members:** Pranav Prakash, Priyansh Jain  
 
 ---
-## 1. Demo Video ##
+## 1. Demo Video ##  
+./assets/demo-video.mp4  
 ## 2. Setup Instructions
 ### Prerequisites
 
