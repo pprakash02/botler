@@ -6,7 +6,9 @@
 
 ---
 ## 1. Demo Video ##  
-./assets/demo-video.mp4  
+
+https://github.com/user-attachments/assets/67261186-bba4-432b-bbd8-975d42ab9b75
+
 ## 2. Setup Instructions
 ### Prerequisites
 
