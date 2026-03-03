@@ -10,3 +10,4 @@ pipecat-ai[piper]
 google-genai
 torch
 onnxruntime-gpu
+fastapi
