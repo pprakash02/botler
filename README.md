@@ -45,7 +45,7 @@ Setup your SIP client according to `pjsip.conf`. We are using UDP transport, wit
    ```bash
    ip addr show
    ```  
-   We recommend using [Linphone](https://www.linphone.org/en/download/) with `Third party SIP account` as it is open-source and easy to use.
+   We recommend using [Linphone](https://www.linphone.org/en/download/) with [Third party SIP account](https://www.linphone.org/en/docs/login-sip-account/) as it is open-source and easy to use.
 
 5. **Run Asterisk and Launch Botler:**
    ```bash
