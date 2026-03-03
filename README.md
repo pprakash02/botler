@@ -52,6 +52,8 @@ Setup your SIP client according to `pjsip.conf`. We are using UDP transport, wit
    sudo asterisk
    python3.13 main.py
    ```
+   (Note: Run asterisk first then setup your SIP client. Also do not keep the program idle for more than 5 minutes. The pipeline will timeout and close in 5 minutes to save resources and you'll need to run the program again.)  
+   
    **For inbound:**
    You will see a prompt for `inbound/outbound:`, type `inbound` and press `Enter` to test for inbound calls. (The first run will take some time to start because `Faster Whisper` and `Piper` models will be downloaded.)   
 Once you see the Tail interface on your terminal, dial any number on your Linphone client (ex: `999`) and talk to the voice agent.  
@@ -60,10 +62,10 @@ When you are satisfied disconnect the call, the MoM will be automatically genera
 
    **For outbound:**
    You will see a prompt for `inbound/outbound:`, type `outbound` and press `Enter` to test for inbound calls. (The first run will take some time to start because `Faster Whisper` and `Piper` models will be downloaded.)   
-Once you see the Tail interface on your terminal,open another terminal window and run:  
+Once you see the Tail interface on your terminal,open another terminal window in `/botler` and run:  
    ```bash
+   source .venv/bin/activate
    cd src
-   source .venv/bin/activate  #to activate venv python interpreter
    python3.13 outbound.py
    ```
      You will see a prompt for `Enter destination number:`, type `6001` and press `Enter`. You will receive a call on your Linphone client with the caller ID `Botler`.   
