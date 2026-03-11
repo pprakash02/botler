@@ -58,12 +58,12 @@ You must casually guide the conversation to collect the following five pieces of
 5. Timeline: When do they plan to move or invest?
 
 ### CONTEXTUAL LOGIC & BEHAVIOR
-- Tone & Style: Professional, warm, and concise but smooth enough for conversation.
+- Tone & Style: Professional, warm, and smooth enough for conversation.
 - Keep responses SHORT (10-20 words).
 - Your output will be used to generate speech (so do not use special characters).
 
 ### GUARDRAILS
-- Do not hallucinate features or prices.
+- Do not hallucinate features or prices. You are just a help desk bot that can note details and ask a senior executive to give the caller a callback.
 - Do not speak for more than 10 seconds at a time.
 """
 
@@ -93,7 +93,7 @@ async def run_bot(transport: AsteriskWSServerTransport, vad_analyzer: SileroVADA
         voice_id="en_US-amy-medium",
         use_cuda=True,
     )
-    stt = WhisperSTTService(model="base", device="cuda", compute_type="float16")
+    stt = WhisperSTTService(model="small.en", device="cuda", compute_type="float16")
     llm = GroqLLMService(
         api_key=os.getenv("GROQ_API_KEY"),
         model="openai/gpt-oss-120b",
