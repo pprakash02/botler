@@ -1,3 +1,6 @@
 .venv/
 __pycache__
+.env
+/src/en_US-amy-medium.onnx
+/src/en_US-amy-medium.onnx.json
 
