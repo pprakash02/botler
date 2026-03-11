@@ -11,3 +11,6 @@ google-genai
 torch
 onnxruntime-gpu
 fastapi
+pathlib
+sarvamai
+glob

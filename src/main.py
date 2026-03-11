@@ -3,12 +3,14 @@ import asyncio
 import datetime
 from dotenv import load_dotenv
 from loguru import logger
-
+import io
+import aiofiles
+import wave
 # Pipeline & Core
 from pipecat.pipeline.pipeline import Pipeline
 from pipecat.pipeline.task import PipelineTask, PipelineParams
 from pipecat.frames.frames import LLMRunFrame, TTSSpeakFrame
-
+from pipecat.processors.audio.audio_buffer_processor import AudioBufferProcessor
 # Audio & VAD
 from pipecat.audio.vad.silero import SileroVADAnalyzer
 from pipecat.audio.vad.vad_analyzer import VADParams
@@ -17,6 +19,7 @@ from pipecat.audio.vad.vad_analyzer import VADParams
 from pipecat.services.google.llm import GoogleLLMService
 from pipecat.services.whisper.stt import WhisperSTTService
 from pipecat.services.piper.tts import PiperTTSService
+
 
 # Aggregators & Context (Universal for 0.102)
 from pipecat.processors.aggregators.llm_response_universal import (
@@ -39,8 +42,8 @@ from chan_ws_server import (
 )
 
 # Custom internal module
-from summarizer import generate_meeting_minutes
-
+from mom_generator import run_batch_transcript
+from mom_generator import summarize_json_transcripts
 load_dotenv(override=True)
 
 PROMPT_FOR_LLM = """
@@ -65,10 +68,27 @@ You must casually guide the conversation to collect the following five pieces of
 """
 
 
+async def save_audio_file(audio: bytes, filename: str, sample_rate: int, num_channels: int):
+    """Save audio data to a WAV file."""
+
+    if len(audio) > 0:
+        with io.BytesIO() as buffer:
+            with wave.open(buffer, "wb") as wf:
+                wf.setsampwidth(2)
+                wf.setnchannels(num_channels)
+                wf.setframerate(sample_rate)
+                wf.writeframes(audio)
+            async with aiofiles.open(filename, "wb") as file:
+                await file.write(buffer.getvalue())
+        logger.info(f"Audio saved to {filename}")
+
+
 async def run_bot(transport: AsteriskWSServerTransport, vad_analyzer: SileroVADAnalyzer, handle_sigint: bool):
     logger.info("Starting Botler...")
-
+    file=""
     # Initialize Services
+    audio_saved_event = asyncio.Event()
+    saved_audio_path = ""
     tts = PiperTTSService(
         voice_id="en_US-amy-medium",
         use_cuda=True,
@@ -78,6 +98,10 @@ async def run_bot(transport: AsteriskWSServerTransport, vad_analyzer: SileroVADA
 
     context = LLMContext(
         messages=[{"role": "system", "content": PROMPT_FOR_LLM}],
+    )
+
+    audiobuffer = AudioBufferProcessor(
+        num_channels=1
     )
 
     # 0.102 VAD Configuration
@@ -100,6 +124,7 @@ async def run_bot(transport: AsteriskWSServerTransport, vad_analyzer: SileroVADA
         llm,
         tts,
         transport.output(),
+        audiobuffer,
         assistant_aggregator,
     ])
 
@@ -108,34 +133,6 @@ async def run_bot(transport: AsteriskWSServerTransport, vad_analyzer: SileroVADA
         params=PipelineParams(enable_metrics=True)
     )
 
-    transcript_log = []
-
-    # Updated signature to accept *args to prevent TypeError when extra context is passed
-    @user_aggregator.event_handler("on_user_turn_stopped")
-    async def on_user_turn_stopped(aggregator, text: str, *args):
-        if text:
-            transcript_log.append(f"user: {text}")
-
-    # Updated signature to accept *args
-    @assistant_aggregator.event_handler("on_assistant_turn_stopped")
-    async def on_assistant_turn_stopped(aggregator, text: str, *args):
-        if text:
-            transcript_log.append(f"assistant: {text}")
-
-    async def save_transcript():
-        if not transcript_log:
-            logger.warning("No transcript to save.")
-            return
-
-        full_log = "\n".join(transcript_log)
-        summary = await generate_meeting_minutes(full_log, os.getenv("MOM_GEMINI_API_KEY"))
-
-        timestamp = datetime.datetime.now().strftime("%Y%m%d_%H%M%S")
-        filename = f"MoM_{timestamp}.txt"
-
-        with open(filename, "w") as f:
-            f.write(summary)
-        logger.info(f"Minutes of Meeting saved to {filename}")
 
     @llm.event_handler("on_completion_timeout")
     async def on_completion_timeout(service, *args):
@@ -145,13 +142,38 @@ async def run_bot(transport: AsteriskWSServerTransport, vad_analyzer: SileroVADA
     @transport.event_handler("on_client_connected")
     async def on_client_connected(transport, client):
         logger.info("Client connected - starting conversation")
+        await audiobuffer.start_recording()
         await task.queue_frames([LLMRunFrame()])
 
     @transport.event_handler("on_client_disconnected")
     async def on_client_disconnected(transport, client):
         logger.info("Client disconnected")
-        await save_transcript()
+        await audiobuffer.stop_recording()
+
+        # 2. NEW: Wait for the exact file to finish saving to disk
+        logger.info("Waiting for audio file to save to disk...")
+        await audio_saved_event.wait()
+
+        if saved_audio_path:
+            logger.info(f"Triggering transcript for: {saved_audio_path}")
+            # Pass the specific file as a list to mom_generator
+            await run_batch_transcript(os.getenv("SARVAM_API_KEY"), [saved_audio_path])
+            await summarize_json_transcripts(os.getenv("MOM_GEMINI_API_KEY"))
+
         await task.cancel()
+
+    @audiobuffer.event_handler("on_audio_data")
+    async def on_audio_data(buffer, audio, sample_rate, num_channels):
+        nonlocal saved_audio_path
+        timestamp = datetime.datetime.now().strftime("%Y%m%d_%H%M%S")
+        recordings_dir = os.path.join(os.path.dirname(__file__), "recordings")
+        os.makedirs(recordings_dir, exist_ok=True)
+        filename = os.path.join(recordings_dir, f"{timestamp}.wav")
+        await save_audio_file(audio, filename, sample_rate, num_channels)
+
+        # Store the filename and signal that the file is ready
+        saved_audio_path = filename
+        audio_saved_event.set()
 
     runner = TailRunner()
     await runner.run(task)
