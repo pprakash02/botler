@@ -90,7 +90,7 @@ When you are satisfied disconnect the call, the recording of the call will be sa
 
 The pipeline utilizes a streaming-first architecture connecting Asterisk with Pipecat. 
 
-Audio flows from Asterisk into Pipecat, where Voice Activity Detection (VAD) handles noise suppression. The stream is transcribed by Faster-Whisper, processed by Groq for intent, and synthesized back into audio by Piper TTS before returning to the caller. When the call is disconnected Pipecat calls functions from `summarizer.py` to create Minutes of Meeting for the call and writes them to a file.
+Audio flows from Asterisk into Pipecat, where Voice Activity Detection (VAD) handles noise suppression. The stream is transcribed by Faster-Whisper, processed by Groq for intent, and synthesized back into audio by Piper TTS before returning to the caller. When the call is disconnected Pipecat calls functions from `mom_generator.py` to create Minutes of Meeting for the call and writes them to a file.
 
 ---
 
