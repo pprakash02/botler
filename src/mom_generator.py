@@ -156,7 +156,7 @@ Transcript:
             logger.info(f"  -> Saved MoM to {summary_file_path}")
 
             # Respect API rate limits (15 RPM on free tier)
-            await asyncio.sleep(4)
+            await asyncio.sleep(2)
 
         except Exception as e:
             logger.error(f"  -> Error processing {base_name}: {e}")
