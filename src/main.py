@@ -16,7 +16,7 @@ from pipecat.audio.vad.silero import SileroVADAnalyzer
 from pipecat.audio.vad.vad_analyzer import VADParams
 
 # Services
-from pipecat.services.google.llm import GoogleLLMService
+from pipecat.services.groq.llm import GroqLLMService
 from pipecat.services.whisper.stt import WhisperSTTService
 from pipecat.services.piper.tts import PiperTTSService
 
@@ -94,7 +94,10 @@ async def run_bot(transport: AsteriskWSServerTransport, vad_analyzer: SileroVADA
         use_cuda=True,
     )
     stt = WhisperSTTService(model="small.en", device="cuda", compute_type="float16")
-    llm = GoogleLLMService(api_key=os.getenv("GEMINI_API_KEY"))
+    llm = GroqLLMService(
+        api_key=os.getenv("GROQ_API_KEY"),
+        model="gpt-oss-120b",
+    )
 
     context = LLMContext(
         messages=[{"role": "system", "content": PROMPT_FOR_LLM}],
@@ -158,7 +161,7 @@ async def run_bot(transport: AsteriskWSServerTransport, vad_analyzer: SileroVADA
             logger.info(f"Triggering transcript for: {saved_audio_path}")
             # Pass the specific file as a list to mom_generator
             await run_batch_transcript(os.getenv("SARVAM_API_KEY"), [saved_audio_path])
-            await summarize_json_transcripts(os.getenv("MOM_GEMINI_API_KEY"))
+            await summarize_json_transcripts(os.getenv("MOM_GROQ_API_KEY"))
 
         await task.cancel()
 

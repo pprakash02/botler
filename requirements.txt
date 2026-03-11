@@ -4,10 +4,10 @@ datetime
 loguru
 pipecat-ai==0.0.102
 pipecat-ai-tail==0.0.2
-pipecat-ai[google]
+pipecat-ai[groq]
 pipecat-ai[whisper]
 pipecat-ai[piper]
-google-genai
+groq
 torch
 onnxruntime-gpu
 fastapi

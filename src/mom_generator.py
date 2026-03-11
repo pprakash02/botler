@@ -4,7 +4,7 @@ import json
 import glob
 from pathlib import Path
 
-from google import genai
+from groq import Groq
 from sarvamai import SarvamAI
 from dotenv import load_dotenv
 from loguru import logger
@@ -70,10 +70,10 @@ async def run_batch_transcript(api_key, audio_paths, transcripts_dir=None):
 
 
 async def summarize_json_transcripts(mom_api_key, transcripts_dir=None, summaries_dir=None):
-    """Summarize transcript JSONs into MoM text files using Gemini.
+    """Summarize transcript JSONs into MoM text files using Groq.
 
     Args:
-        mom_api_key: Gemini API key.
+        mom_api_key: Groq API key.
         transcripts_dir: Directory containing transcript .json files.
         summaries_dir: Directory to write summary .txt files into.
     """
@@ -94,8 +94,8 @@ async def summarize_json_transcripts(mom_api_key, transcripts_dir=None, summarie
 
     os.makedirs(summaries_dir, exist_ok=True)
 
-    # Use the google-genai SDK (same as summarizer.py)
-    client = genai.Client(api_key=mom_api_key)
+    # Use the Groq SDK
+    client = Groq(api_key=mom_api_key)
 
     logger.info(f"Found {len(json_files)} JSON transcript(s). Starting summarization...")
 
@@ -142,13 +142,13 @@ Transcript:
 {transcript_text}
 """
 
-            # Gemini call is synchronous in the google-genai SDK — run in thread
+            # Groq call is synchronous — run in thread
             response = await asyncio.to_thread(
-                client.models.generate_content,
-                model="gemini-2.5-flash",
-                contents=prompt,
+                client.chat.completions.create,
+                model="gpt-oss-120b",
+                messages=[{"role": "user", "content": prompt}],
             )
-            summary_text = response.text
+            summary_text = response.choices[0].message.content
 
             with open(summary_file_path, "w", encoding="utf-8") as out_file:
                 out_file.write(summary_text)
@@ -171,4 +171,4 @@ if __name__ == "__main__":
         + glob.glob("./recordings/*.mpeg")
     )
     asyncio.run(run_batch_transcript(os.getenv("SARVAM_API_KEY"), test_paths))
-    asyncio.run(summarize_json_transcripts(os.getenv("MOM_GEMINI_API_KEY")))
+    asyncio.run(summarize_json_transcripts(os.getenv("MOM_GROQ_API_KEY")))

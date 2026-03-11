@@ -32,11 +32,11 @@ https://github.com/user-attachments/assets/67261186-bba4-432b-bbd8-975d42ab9b75
    pip install -r requirements.txt
    ```
 3. **Set required Environment Variables:**  
-Go to [Google AI Studio](https://aistudio.google.com) and create 2 API keys (one for the Voice Agent Brain and the other for Minutes of Meeting Generator). Go to [Sarvam AI Dashboard](https://dashboard.sarvam.ai/) and create an API key.  
+Go to [Groq Console](https://console.groq.com) and create 2 API keys (one for the Voice Agent Brain and the other for Minutes of Meeting Generator). Go to [Sarvam AI Dashboard](https://dashboard.sarvam.ai/) and create an API key.  
    ```bash
    cd src
    ```
-   Rename `env.example` to `.env` and add your keys for `GEMINI_API_KEY`, `MOM_GEMINI_API_KEY` and `SARVAM_API_KEY`.
+   Rename `env.example` to `.env` and add your keys for `GROQ_API_KEY`, `MOM_GROQ_API_KEY` and `SARVAM_API_KEY`.
 4. **Telephony:**  
     Install `Asterisk 22.8.2` from source (Linux distro maintained packages may be old). Follow     the instructions given in [Asterisk Docs](https://docs.asterisk.org/Getting-Started/Installing-Asterisk/Installing-Asterisk-From-Source/).  
 Navigate to `/etc/asterisk` and set the Asterisk config files as given in the `/configs` directory of `/botler`.  
@@ -57,7 +57,7 @@ Setup your SIP client according to `pjsip.conf`. We are using UDP transport, wit
    **For inbound:**
    You will see a prompt for `inbound/outbound:`, type `inbound` and press `Enter` to test for inbound calls. (The first run will take some time to start because `Faster Whisper` and `Piper` models will be downloaded.)   
 Once you see the Tail interface on your terminal, dial any number on your Linphone client (ex: `999`) and talk to the voice agent.  
-(When using the Free Tier of Gemini API key, you will be able to talk for approximately 1-2 minutes due to Rate Limits enforced by Google.)  
+(When using the Free Tier of Groq API key, you may experience rate limits.)  
 When you are satisfied disconnect the call, the MoM will be automatically generated and stored in `/src`.
 
    **For outbound:**
@@ -69,7 +69,7 @@ Once you see the Tail interface on your terminal,open another terminal window in
    python3.13 outbound.py
    ```
      You will see a prompt for `Enter destination number:`, type `6001` and press `Enter`. You will receive a call on your Linphone client with the caller ID `Botler`.   
-(When using the Free Tier of Gemini API key, you will be able to talk for approximately 1-2 minutes due to Rate Limits enforced by Google.)  
+(When using the Free Tier of Groq API key, you may experience rate limits.)  
 When you are satisfied disconnect the call, the recording of the call will be saved in `/src/recordings/` and the MoM (Minutes Of Meeting) will be automatically generated and stored in `/src/generated_mom`.
 
    **For Minutes Of Meeting:**
@@ -88,7 +88,7 @@ When you are satisfied disconnect the call, the recording of the call will be sa
 
 The pipeline utilizes a streaming-first architecture connecting Asterisk with Pipecat. 
 
-Audio flows from Asterisk into Pipecat, where Voice Activity Detection (VAD) handles noise suppression. The stream is transcribed by Faster-Whisper, processed by Gemini for intent, and synthesized back into audio by Piper TTS before returning to the caller. When the call is disconnected Pipecat calls functions from `summarizer.py` to create Minutes of Meeting for the call and writes them to a file.
+Audio flows from Asterisk into Pipecat, where Voice Activity Detection (VAD) handles noise suppression. The stream is transcribed by Faster-Whisper, processed by Groq for intent, and synthesized back into audio by Piper TTS before returning to the caller. When the call is disconnected Pipecat calls functions from `summarizer.py` to create Minutes of Meeting for the call and writes them to a file.
 
 ---
 
@@ -97,7 +97,7 @@ Audio flows from Asterisk into Pipecat, where Voice Activity Detection (VAD) han
 * **Language:** Python
 * **Telephony:** Asterisk
 * **STT:** Faster-Whisper
-* **LLM:** Gemini API 
+* **LLM:** Groq API (gpt-oss-120b)
 * **TTS:** Piper (`en_US-amy-medium` voice)
 * **VAD:** Silero VAD
 * **Orchestration:** Pipecat
