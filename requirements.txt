@@ -13,4 +13,3 @@ onnxruntime-gpu
 fastapi
 pathlib
 sarvamai
-glob

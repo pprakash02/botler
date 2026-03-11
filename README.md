@@ -73,6 +73,8 @@ Once you see the Tail interface on your terminal,open another terminal window in
 When you are satisfied disconnect the call, the recording of the call will be saved in `/src/recordings/` and the MoM (Minutes Of Meeting) will be automatically generated and stored in `/src/generated_mom`.
 
    **For Minutes Of Meeting:**
+
+   We support multilingual recordings for Minutes Of Meeting generation. (English, Hindi, Bengali, Tamil etc.)  
    Place your recordings in `/src/recordings`, and open terminal in `/botler` and run:
       ```bash
    source .venv/bin/activate

@@ -145,7 +145,7 @@ Transcript:
             # Groq call is synchronous — run in thread
             response = await asyncio.to_thread(
                 client.chat.completions.create,
-                model="gpt-oss-120b",
+                model="openai/gpt-oss-120b",
                 messages=[{"role": "user", "content": prompt}],
             )
             summary_text = response.choices[0].message.content
