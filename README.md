@@ -32,11 +32,11 @@ https://github.com/user-attachments/assets/67261186-bba4-432b-bbd8-975d42ab9b75
    pip install -r requirements.txt
    ```
 3. **Set required Environment Variables:**  
-Go to [Google AI Studio](https://aistudio.google.com) and create 2 API keys (one for the Voice Agent Brain and the other for Minutes of Meeting Generator).  
+Go to [Google AI Studio](https://aistudio.google.com) and create 2 API keys (one for the Voice Agent Brain and the other for Minutes of Meeting Generator). Go to [Sarvam AI Dashboard](https://dashboard.sarvam.ai/) and create an API key.  
    ```bash
    cd src
    ```
-   Rename `env.example` to `.env` and add your keys for `GEMINI_API_KEY` and `MOM_GEMINI_API_KEY`.
+   Rename `env.example` to `.env` and add your keys for `GEMINI_API_KEY`, `MOM_GEMINI_API_KEY` and `SARVAM_API_KEY`.
 4. **Telephony:**  
     Install `Asterisk 22.8.2` from source (Linux distro maintained packages may be old). Follow     the instructions given in [Asterisk Docs](https://docs.asterisk.org/Getting-Started/Installing-Asterisk/Installing-Asterisk-From-Source/).  
 Navigate to `/etc/asterisk` and set the Asterisk config files as given in the `/configs` directory of `/botler`.  
@@ -70,8 +70,15 @@ Once you see the Tail interface on your terminal,open another terminal window in
    ```
      You will see a prompt for `Enter destination number:`, type `6001` and press `Enter`. You will receive a call on your Linphone client with the caller ID `Botler`.   
 (When using the Free Tier of Gemini API key, you will be able to talk for approximately 1-2 minutes due to Rate Limits enforced by Google.)  
-When you are satisfied disconnect the call, the MoM will be automatically generated and stored in `/src`.
+When you are satisfied disconnect the call, the recording of the call will be saved in `/src/recordings/` and the MoM (Minutes Of Meeting) will be automatically generated and stored in `/src/generated_mom`.
 
+   **For Minutes Of Meeting:**
+   Place your recordings in `/src/recordings`, and open terminal in `/botler` and run:
+      ```bash
+   source .venv/bin/activate
+   cd src
+   python3.13 mom_generator.py
+   ```
 
 ---
 
