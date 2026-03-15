@@ -1,0 +1,20 @@
+Main Topic/Objective
+The conversation centers on resolving a customer service issue involving a defective cooling coil, clarifying repair charges, scheduling the technician’s visit, and updating the internal records (roll number, payment amount, and dates) for the case.
+
+Key Points Discussed
+- The customer reported a problem with the cooling coil that requires repair.  
+- There is confusion about additional charges; the customer mentioned a total payment of 9,300 but the system shows 9,800.  
+- The technician (Speaker 1) has spoken with the customer and with Dileep, confirming that the repair is needed.  
+- Scheduling: the technician may go today, but the plan is to dispatch him tomorrow or the day after, depending on availability.  
+- System entry: a roll number (2605) has been entered, and the payment record needs to be corrected.  
+- The date associated with the transaction should be recorded as September 22 (the transcript also mentions November 22, but the consensus is September 22).  
+- The customer was asked to send a payment screenshot, which has not yet been received.  
+- References were made to other individuals (Anish for the new roll number, mother‑in‑law, wife) but they are not directly involved in the decision‑making.
+
+Decisions Made / Action Items
+- Dispatch the technician to the customer’s location tomorrow (or the following day if today is not possible).  
+- Verify the correct payment amount; confirm whether the customer paid 9,300 or 9,800.  
+- Obtain and attach the missing payment screenshot from the customer.  
+- Ensure the roll number 2605 is correctly logged in the system along with the payment details.  
+- Record the transaction date as September 22 in the system.  
+- Add the confirmed payment amount to the customer’s account once verification is complete.  

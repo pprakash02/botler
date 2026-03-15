@@ -1,0 +1,17 @@
+Main Topic/Objective  
+The call is a Diglam Customer Care interaction to verify a customer’s identity and details, log a complaint about an air‑conditioner malfunction, and arrange for a technician visit.
+
+Key Points Discussed  
+- The agent attempts to locate the customer’s record; the customer’s name is given as Madam Chachi Chaudhary.  
+- An additional name, Mujib Mujib Mehboob Sheikh, is mentioned during the exchange of contact numbers.  
+- Several mobile numbers are read aloud (e.g., 993‑07‑149 23, 993‑08‑020 2) to confirm the correct contact information.  
+- The complaint relates to an AC problem, logged on the 27th of the month.  
+- The agent refers to a “seat” that had been merged and then separated, indicating a possible internal ticket or account handling issue.  
+- Both parties agree that the full customer details will be sent to the agent via WhatsApp.  
+- The agent will update the customer and arrange for a technician to visit.  
+
+Decisions Made / Action Items  
+- The agent will receive the customer’s details (name, address, phone numbers) on WhatsApp.  
+- The complaint will be entered into the system and a technician will be scheduled to attend the site.  
+- The agent will contact the customer to confirm the appointment and provide an update on the repair status.  
+- Any issues with the “seat” (ticket/account) merging will be reviewed and corrected in the system.  

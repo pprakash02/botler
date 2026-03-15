@@ -1,0 +1,22 @@
+Main Topic/Objective
+The call is a service scheduling conversation between Priya (the representative) and a customer who wants a vehicle check‑up and information about accessories. The goal is to arrange an appointment, explain service timing, and discuss accessory options and pricing.
+
+Key Points Discussed
+- The customer initially asked for a “first checkup” (referred to as a “thousand kilometers” service).  
+- Priya explained that today (Sunday) is very busy, so the service would take 3‑4 hours and there would be a rush.  
+- The representative offered either same‑day service (with a wait) or an appointment for the next day.  
+- The customer was unsure whether to come today or tomorrow; Priya suggested tomorrow morning as the better option.  
+- An appointment time of 10:00 am was proposed, with the service expected to be completed by 1:00 pm.  
+- Pick‑up and drop‑off service was mentioned as available if the customer wants it.  
+- The customer inquired about accessories: a horn, a 360‑camera, and whether the camera would be a Volkswagen (OEM) part or aftermarket.  
+- Priya said she could arrange the accessories but did not have pricing information; the price must be confirmed with Surender, who handles sales.  
+- The representative offered to give advice on which accessories to install when the customer arrives.  
+- Names were spelled out several times (Ishaan Kapoor, Nishant Kapil) but no clear assignment of those names to either party was determined.  
+- The customer provided a mobile number (9560102678) for confirmation.  
+
+Decisions Made / Action Items
+- Appointment scheduled for tomorrow morning at 10:00 am; service expected to finish by 1:00 pm.  
+- Customer will attend the service personally (no pick‑up/drop‑off requested).  
+- Priya will forward the accessory request (horn, 360‑camera) to Surender to obtain pricing and confirm availability of OEM vs. aftermarket parts.  
+- Customer to confirm the appointment by responding to the provided mobile number.  
+- Priya will share the service location details with the customer prior to the appointment.  
